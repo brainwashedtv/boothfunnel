@@ -182,10 +182,14 @@ let n = 0;
   // Wordmark below seal
   wordmark(slide, 3.8, 4.0, 80);
 
-  // Tag line
-  slide.addText("Photobooths that pay for themselves.", {
+  // Tag line — uses the brand's signature italic moment
+  slide.addText([
+    { text: "A guest list, ", options: { fontFace: F.sans, fontSize: 17, color: C.ink } },
+    { text: "disguised as a photobooth", options: { fontFace: F.serif, italic: true, fontSize: 17, color: C.red } },
+    { text: ".", options: { fontFace: F.sans, fontSize: 17, color: C.ink } },
+  ], {
     x: 0.6, y: 5.7, w: 12, h: 0.45,
-    fontFace: F.sans, fontSize: 17, color: C.ink, align: "center", margin: 0,
+    align: "center", margin: 0, valign: "middle",
   });
 
   // Bottom hairline + corner notes
@@ -443,14 +447,14 @@ let n = 0;
 
   // Big lockup on white
   slide.addShape("rect", { x: 0.6, y: 2.6, w: 12.1, h: 3.4, fill: { color: C.white }, line: { color: C.line, width: 0.5 } });
-  // Seal
-  seal(slide, { x: 3.3, y: 3.4, d: 1.7, mode: "outline" });
+  // Seal — sized + positioned so the lockup fits within the card
+  seal(slide, { x: 2.8, y: 3.7, d: 1.4, mode: "outline" });
   // Vertical separator
   slide.addShape("line", {
-    x: 5.4, y: 3.6, w: 0, h: 1.3, line: { color: C.brass, width: 0.75 },
+    x: 4.5, y: 3.85, w: 0, h: 1.0, line: { color: C.brass, width: 0.75 },
   });
-  // Wordmark
-  wordmark(slide, 5.7, 3.85, 90);
+  // Wordmark — reduced size to keep within card bounds
+  wordmark(slide, 4.85, 4.0, 70);
   slide.addText("LOCKUP · LANDSCAPE", {
     x: 0.6, y: 5.65, w: 12.1, h: 0.25,
     fontFace: F.sans, fontSize: 9, color: C.rust, align: "center", charSpacing: 3, margin: 0,
@@ -673,9 +677,9 @@ let n = 0;
 
   // Three example headlines on white cards
   const examples = [
-    { sans1: "Photobooths that ", italic: "pay for themselves", sans2: "." },
-    { sans1: "From box to revenue ", italic: "in three moves", sans2: "." },
-    { sans1: "Your customers already take photos. ", italic: "None of them are branded yours", sans2: "." },
+    { sans1: "A guest list, ",                italic: "disguised as a photobooth", sans2: "." },
+    { sans1: "From box to ",                  italic: "first contact",             sans2: ", in three moves." },
+    { sans1: "Branded photos. ",              italic: "Real emails",               sans2: "." },
   ];
 
   examples.forEach((e, i) => {
@@ -685,9 +689,9 @@ let n = 0;
       { text: e.sans1,  options: { fontFace: F.sans, fontSize: 26, color: C.ink, charSpacing: -1 } },
       { text: e.italic, options: { fontFace: F.serif, italic: true, fontSize: 26, color: C.red, charSpacing: -0.5 } },
       { text: e.sans2,  options: { fontFace: F.sans, fontSize: 26, color: C.ink } },
-    ], { x: 0.85, y: y + 0.25, w: 11.6, h: 0.7, margin: 0, valign: "middle" });
+    ], { x: 0.85, y: y + 0.18, w: 11.6, h: 0.62, margin: 0, valign: "middle" });
     slide.addText(`EXAMPLE 0${i + 1}`, {
-      x: 0.85, y: y + 0.85, w: 4, h: 0.2,
+      x: 0.85, y: y + 0.82, w: 4, h: 0.2,
       fontFace: F.sans, fontSize: 8, color: C.rust, charSpacing: 3, bold: true, margin: 0,
     });
   });
@@ -718,23 +722,20 @@ let n = 0;
   frames.forEach((f, i) => {
     const x = 0.6 + i * 4.15;
     const y = 2.2;
-    // Print frame (white border + photo + caption)
-    slide.addShape("rect", { x, y, w: 4.0, h: 4.5, fill: { color: C.white }, line: { color: C.line, width: 0.5 }, shadow: newShadow() });
-    slide.addShape("rect", { x: x + 0.25, y: y + 0.25, w: 3.5, h: 3.5, fill: { color: f.tone }, line: { color: f.tone, width: 0 } });
+    // Frame (white border + photo + caption) — slightly shorter to clear the footer
+    slide.addShape("rect", { x, y, w: 4.0, h: 4.0, fill: { color: C.white }, line: { color: C.line, width: 0.5 }, shadow: newShadow() });
+    slide.addShape("rect", { x: x + 0.25, y: y + 0.25, w: 3.5, h: 3.0, fill: { color: f.tone }, line: { color: f.tone, width: 0 } });
     slide.addText(`— ${f.tag}`, {
-      x: x + 0.25, y: y + 3.85, w: 3.5, h: 0.4,
+      x: x + 0.25, y: y + 3.4, w: 3.5, h: 0.4,
       fontFace: "Courier New", fontSize: 10, color: C.ink, charSpacing: 1, margin: 0,
     });
     // Sub label below frame
     slide.addText(f.sub, {
-      x, y: y + 4.7, w: 4.0, h: 0.3,
+      x, y: y + 4.15, w: 4.0, h: 0.3,
       fontFace: F.serif, italic: true, fontSize: 12, color: C.brown, align: "center", margin: 0,
     });
   });
 
-  // Do's and don'ts in 2 columns at bottom
-  hairline(slide, 0.6, 7.0, 12.1);
-  // can't fit much — keep on the next slide
   pageNum(slide, n, TOTAL);
 }
 
@@ -861,16 +862,16 @@ let n = 0;
     x: 1.0, y: 3.7, w: 6, h: 0.3,
     fontFace: F.sans, fontSize: 9, color: C.rust, charSpacing: 4, bold: true, margin: 0,
   });
-  // Headline with italic moment
+  // Headline with italic moment — current live positioning
   slide.addText([
-    { text: "Photobooths that ", options: { fontFace: F.sans, fontSize: 38, color: C.ink, charSpacing: -1 } },
-    { text: "pay for themselves", options: { fontFace: F.serif, italic: true, fontSize: 38, color: C.red, charSpacing: -0.5 } },
-    { text: ".", options: { fontFace: F.sans, fontSize: 38, color: C.ink } },
-  ], { x: 1.0, y: 4.0, w: 6.5, h: 1.4, margin: 0 });
+    { text: "A guest list, ", options: { fontFace: F.sans, fontSize: 34, color: C.ink, charSpacing: -1 } },
+    { text: "disguised as a photobooth", options: { fontFace: F.serif, italic: true, fontSize: 34, color: C.red, charSpacing: -0.5 } },
+    { text: ".", options: { fontFace: F.sans, fontSize: 34, color: C.ink } },
+  ], { x: 1.0, y: 4.0, w: 6.5, h: 1.5, margin: 0 });
 
-  slide.addText("Branded social booths for bars, restaurants, and event venues — built so every guest becomes your next ad.", {
-    x: 1.0, y: 5.55, w: 6.5, h: 0.8,
-    fontFace: F.sans, fontSize: 13, color: C.brown, lineSpacing: 20, margin: 0,
+  slide.addText("Every guest who steps in front of the booth gives you their email. They walk away with a branded shot built for sharing. You walk away with a contact list.", {
+    x: 1.0, y: 5.55, w: 6.5, h: 0.9,
+    fontFace: F.sans, fontSize: 12, color: C.brown, lineSpacing: 18, margin: 0,
   });
 
   // CTAs
