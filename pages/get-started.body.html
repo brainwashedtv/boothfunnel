@@ -1,0 +1,194 @@
+<section class="bf-section-tight">
+  <div class="bf-wrap bf-checkout">
+    <div style="text-align: center; margin-bottom: 8px;">
+      <span class="bf-eyebrow">Get started</span>
+    </div>
+    <h1 class="bf-h1" style="font-size: 36px; text-align: center; margin: 8px 0 28px;">Configure your booth.</h1>
+
+    <div class="bf-stepper" id="bf-stepper">
+      <div class="bf-stepper-item bf-active" data-step="1"></div>
+      <div class="bf-stepper-item" data-step="2"></div>
+      <div class="bf-stepper-item" data-step="3"></div>
+      <div class="bf-stepper-item" data-step="4"></div>
+      <div class="bf-stepper-item" data-step="5"></div>
+      <div class="bf-stepper-item" data-step="6"></div>
+    </div>
+
+    <form id="bf-checkout" class="bf-form" novalidate>
+
+      <!-- STEP 1: Venue -->
+      <div class="bf-step-pane bf-active" data-pane="1">
+        <p class="bf-step-meta">Step 1 of 6 · Venue</p>
+        <h2 class="bf-h2" style="font-size: 24px;">Tell us about your venue.</h2>
+        <p class="bf-help" style="margin: 0 0 18px;">We use this to ship the booth and pre-configure it for your space.</p>
+        <div class="bf-grid-2">
+          <div class="bf-field">
+            <label class="bf-label" for="venue-name">Venue name</label>
+            <input class="bf-input" id="venue-name" name="venue_name" required />
+          </div>
+          <div class="bf-field">
+            <label class="bf-label" for="venue-type">Venue type</label>
+            <select class="bf-select" id="venue-type" name="venue_type">
+              <option value="bar">Bar / nightlife</option>
+              <option value="restaurant">Restaurant</option>
+              <option value="event">Event venue</option>
+              <option value="retail">Retail / pop-up</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="bf-grid-2">
+          <div class="bf-field">
+            <label class="bf-label" for="contact-name">Your name</label>
+            <input class="bf-input" id="contact-name" name="contact_name" required />
+          </div>
+          <div class="bf-field">
+            <label class="bf-label" for="contact-email">Email</label>
+            <input class="bf-input" id="contact-email" name="contact_email" type="email" required />
+          </div>
+        </div>
+        <div class="bf-field">
+          <label class="bf-label" for="contact-phone">Phone</label>
+          <input class="bf-input" id="contact-phone" name="contact_phone" type="tel" />
+        </div>
+        <div class="bf-step-actions">
+          <span></span>
+          <button type="button" class="bf-btn bf-btn-primary bf-btn-lg" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Plan -->
+      <div class="bf-step-pane" data-pane="2">
+        <p class="bf-step-meta">Step 2 of 6 · Plan</p>
+        <h2 class="bf-h2" style="font-size: 24px;">Pick a plan.</h2>
+        <p class="bf-help" style="margin: 0 0 6px;">You can change this later in your dashboard. No long-term contract either way.</p>
+        <div class="bf-plan-options" role="radiogroup" aria-label="Choose a plan">
+          <label class="bf-plan-option">
+            <input type="radio" name="plan" value="starter" />
+            <div class="bf-plan-option-row">
+              <span class="bf-plan-option-name">Starter</span>
+              <span class="bf-plan-option-price">$299/mo</span>
+            </div>
+            <p class="bf-plan-option-desc">1 booth, 500 prints/month, basic analytics. For smaller venues.</p>
+          </label>
+          <label class="bf-plan-option bf-selected">
+            <input type="radio" name="plan" value="growth" checked />
+            <div class="bf-plan-option-row">
+              <span class="bf-plan-option-name">Growth · most popular</span>
+              <span class="bf-plan-option-price">$499/mo</span>
+            </div>
+            <p class="bf-plan-option-desc">1 booth, unlimited prints, full analytics + ROI dashboard, promo frame swaps.</p>
+          </label>
+          <label class="bf-plan-option">
+            <input type="radio" name="plan" value="multi" />
+            <div class="bf-plan-option-row">
+              <span class="bf-plan-option-name">Multi-location</span>
+              <span class="bf-plan-option-price">Custom</span>
+            </div>
+            <p class="bf-plan-option-desc">3+ venues. We'll skip the rest of checkout and have someone get in touch.</p>
+          </label>
+        </div>
+        <div class="bf-step-actions">
+          <button type="button" class="bf-btn bf-btn-ghost" data-prev>Back</button>
+          <button type="button" class="bf-btn bf-btn-primary bf-btn-lg" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Branding -->
+      <div class="bf-step-pane" data-pane="3">
+        <p class="bf-step-meta">Step 3 of 6 · Branding basics</p>
+        <h2 class="bf-h2" style="font-size: 24px;">Make it look like yours.</h2>
+        <p class="bf-help" style="margin: 0 0 18px;">You can upload a logo file later. For now, the basics are enough to pre-configure your unit.</p>
+        <div class="bf-field">
+          <label class="bf-label" for="brand-display">How should your venue's name appear on prints?</label>
+          <input class="bf-input" id="brand-display" name="brand_display" placeholder="e.g. The Lantern Room" required />
+        </div>
+        <div class="bf-grid-2">
+          <div class="bf-field">
+            <label class="bf-label" for="brand-color">Primary brand color</label>
+            <input class="bf-input" id="brand-color" name="brand_color" placeholder="#E84F1F or 'orange'" />
+          </div>
+          <div class="bf-field">
+            <label class="bf-label" for="brand-hashtag">Branded hashtag</label>
+            <input class="bf-input" id="brand-hashtag" name="brand_hashtag" placeholder="#lanternroom" />
+          </div>
+        </div>
+        <div class="bf-field">
+          <label class="bf-label" for="brand-instagram">Instagram handle (optional)</label>
+          <input class="bf-input" id="brand-instagram" name="brand_instagram" placeholder="@lanternroom" />
+        </div>
+        <div class="bf-step-actions">
+          <button type="button" class="bf-btn bf-btn-ghost" data-prev>Back</button>
+          <button type="button" class="bf-btn bf-btn-primary bf-btn-lg" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Install / shipping -->
+      <div class="bf-step-pane" data-pane="4">
+        <p class="bf-step-meta">Step 4 of 6 · Install details</p>
+        <h2 class="bf-h2" style="font-size: 24px;">Where do we ship the booth?</h2>
+        <p class="bf-help" style="margin: 0 0 18px;">Most US addresses are 3–5 business days. We'll send tracking the day it leaves the warehouse.</p>
+        <div class="bf-field">
+          <label class="bf-label" for="ship-address1">Street address</label>
+          <input class="bf-input" id="ship-address1" name="ship_address1" autocomplete="address-line1" required />
+        </div>
+        <div class="bf-field">
+          <label class="bf-label" for="ship-address2">Suite / unit (optional)</label>
+          <input class="bf-input" id="ship-address2" name="ship_address2" autocomplete="address-line2" />
+        </div>
+        <div class="bf-grid-2">
+          <div class="bf-field">
+            <label class="bf-label" for="ship-city">City</label>
+            <input class="bf-input" id="ship-city" name="ship_city" autocomplete="address-level2" required />
+          </div>
+          <div class="bf-field">
+            <label class="bf-label" for="ship-state">State</label>
+            <input class="bf-input" id="ship-state" name="ship_state" autocomplete="address-level1" required />
+          </div>
+        </div>
+        <div class="bf-grid-2">
+          <div class="bf-field">
+            <label class="bf-label" for="ship-zip">ZIP</label>
+            <input class="bf-input" id="ship-zip" name="ship_zip" autocomplete="postal-code" required />
+          </div>
+          <div class="bf-field">
+            <label class="bf-label" for="ship-network">Connectivity</label>
+            <select class="bf-select" id="ship-network" name="ship_network">
+              <option value="wifi">Use venue Wi-Fi</option>
+              <option value="cellular">Use built-in cellular (recommended)</option>
+            </select>
+          </div>
+        </div>
+        <div class="bf-field">
+          <label class="bf-label" for="ship-notes">Anything we should know about the install spot? (optional)</label>
+          <textarea class="bf-textarea" id="ship-notes" name="ship_notes" placeholder="e.g. tight corner near the bar, low ceiling..."></textarea>
+        </div>
+        <div class="bf-step-actions">
+          <button type="button" class="bf-btn bf-btn-ghost" data-prev>Back</button>
+          <button type="button" class="bf-btn bf-btn-primary bf-btn-lg" data-next>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: Review + Payment handoff -->
+      <div class="bf-step-pane" data-pane="5">
+        <p class="bf-step-meta">Step 5 of 6 · Review &amp; payment</p>
+        <h2 class="bf-h2" style="font-size: 24px;">Quick review, then payment.</h2>
+        <div id="bf-review" style="background: var(--bf-bg-warm); border-radius: var(--bf-radius); padding: 22px; margin-bottom: 18px; font-size: 14px; line-height: 1.7; color: var(--bf-text);"></div>
+        <p class="bf-help" style="margin: 0 0 18px;">Clicking "Pay securely" will take you to Stripe to enter card details. We never see your card. After payment we'll redirect you back here for the final step.</p>
+        <p class="bf-help" id="bf-checkout-status" style="min-height: 18px;"></p>
+        <div class="bf-step-actions">
+          <button type="button" class="bf-btn bf-btn-ghost" data-prev>Back</button>
+          <button type="button" class="bf-btn bf-btn-primary bf-btn-lg" id="bf-pay">Pay securely with Stripe</button>
+        </div>
+      </div>
+
+      <!-- STEP 6: confirmation only renders on /success — kept here as a reference state. -->
+      <div class="bf-step-pane" data-pane="6">
+        <p class="bf-step-meta">Step 6 of 6 · Confirmation</p>
+        <h2 class="bf-h2" style="font-size: 24px;">You're all set.</h2>
+        <p class="bf-body">If you reached this page, payment went through. We'll redirect you to the confirmation page momentarily.</p>
+      </div>
+
+    </form>
+  </div>
+</section>
