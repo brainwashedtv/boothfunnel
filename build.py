@@ -28,7 +28,7 @@ def header_html(current_slug, depth=0):
     nav_html = "\n      ".join(_link(s, l) for s, l in NAV_LINKS)
     return f"""<header class="bf-header">
   <div class="bf-wrap bf-header-inner">
-    <a href="{prefix}" class="bf-logo">Booth<span>Funnel</span></a>
+    <a href="{prefix}" class="bf-logo">Booth<span>funnel</span></a>
     <nav class="bf-nav">
       {nav_html}
     </nav>
@@ -46,8 +46,8 @@ def footer_html(depth=0):
   <div class="bf-wrap">
     <div class="bf-footer-grid">
       <div>
-        <div class="bf-logo" style="margin-bottom: 12px;">Booth<span>Funnel</span></div>
-        <p class="bf-body" style="max-width: 32ch;">Branded photobooths for bars, restaurants, and event venues. Built so every guest becomes your next ad.</p>
+        <div class="bf-logo" style="margin-bottom: 12px;">Booth<span>funnel</span></div>
+        <p class="bf-body" style="max-width: 32ch;">Branded social photobooths that capture every guest's email and deliver a social-ready photo. Built so your floor doubles as a lead-generation channel.</p>
       </div>
       <div>
         <h4>Product</h4>
@@ -92,6 +92,10 @@ PAGE_TEMPLATE = """<!doctype html>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{title}</title>
   <meta name="description" content="{description}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <link rel="icon" href="/brand/logos/seal-favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/site.css" />
   {extra_head}
 </head>

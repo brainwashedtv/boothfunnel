@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BoothFunnel · Seal · favicon (solid fill)
+  At sizes ≤32px the outline disappears, so swap to this solid-fill variant.
+  Use for: favicon, social profile pic, app icon.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="bf icon">
+  <title>Boothfunnel favicon</title>
+  <circle cx="100" cy="100" r="100" fill="#1A1612"/>
+  <text x="100" y="138"
+        font-family="'GT Sectra', 'Editorial New', Georgia, serif"
+        font-style="italic"
+        font-size="105"
+        font-weight="400"
+        fill="#F2EAD8"
+        text-anchor="middle">bf</text>
+</svg>

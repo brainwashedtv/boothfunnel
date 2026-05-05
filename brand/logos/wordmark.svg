@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BoothFunnel · Primary wordmark
+  "Booth" in sans (Söhne / Helvetica Neue) + "funnel" in italic serif (GT Sectra Italic / Georgia)
+  Color: ink #1A1612 + Kodak red #B33A2A
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 130" role="img" aria-label="Boothfunnel">
+  <title>Boothfunnel wordmark</title>
+  <text x="0" y="100"
+        font-family="Söhne, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="110"
+        font-weight="500"
+        letter-spacing="-2"
+        fill="#1A1612">Booth</text>
+  <text x="282" y="100"
+        font-family="'GT Sectra', 'Editorial New', Georgia, 'Times New Roman', serif"
+        font-style="italic"
+        font-size="110"
+        font-weight="400"
+        letter-spacing="-1"
+        fill="#B33A2A">funnel</text>
+</svg>

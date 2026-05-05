@@ -1,35 +1,51 @@
-/* BoothFunnel design system
+/* BoothFunnel design system — Heritage Frame
+   Cream + ink + Kodak red. Modern grotesque does the work, italic serif does the moment.
    ------------------------------------------------- */
 :root {
-  --bf-ink: #0E0E0E;
-  --bf-ink-2: #2A2A2A;
-  --bf-text: #1A1A1A;
-  --bf-muted: #4A4A4A;
-  --bf-hint: #6B6B6B;
-  --bf-line: #EAEAEA;
-  --bf-bg: #FFFFFF;
-  --bf-bg-warm: #FAFAF8;
-  --bf-bg-cream: #F2EAD8;
-  --bf-brand: #E84F1F;
-  --bf-brand-dark: #C13D14;
-  --bf-amber: #F4B83C;
+  /* Brand palette */
+  --bf-cream: #F2EAD8;       /* canvas — page background */
+  --bf-cream-2: #EFE8DC;     /* slightly darker cream for section breaks */
+  --bf-white: #FFFFFF;       /* "print white" — cards, photos */
+  --bf-ink: #1A1612;         /* voice — primary text */
+  --bf-ink-2: #2A241D;       /* slightly softer ink */
+  --bf-mud: #5A4A38;         /* body subdued */
+  --bf-rust: #8C5142;        /* eyebrows, metadata */
+  --bf-line: #E5DCC8;        /* hairlines on cream */
+  --bf-line-2: #C9BFA7;      /* stronger hairline */
+
+  --bf-brand: #B33A2A;       /* Kodak red — the moment */
+  --bf-brand-dark: #8C2D20;
+  --bf-brass: #C9A063;       /* texture / fine detail */
+
+  /* Legacy aliases — keep so existing markup keeps working */
+  --bf-text: var(--bf-ink);
+  --bf-muted: var(--bf-mud);
+  --bf-hint: var(--bf-rust);
+  --bf-bg: var(--bf-cream);
+  --bf-bg-warm: var(--bf-cream-2);
+  --bf-bg-cream: var(--bf-white);
+  --bf-amber: var(--bf-brass);
   --bf-success: #1D9E75;
   --bf-danger: #A32D2D;
+
   --bf-radius-sm: 6px;
   --bf-radius: 10px;
   --bf-radius-lg: 14px;
-  --bf-shadow: 0 1px 2px rgba(0,0,0,0.04);
-  --bf-shadow-lift: 0 4px 16px rgba(0,0,0,0.06);
+  --bf-shadow: 0 1px 2px rgba(26,22,18,0.04);
+  --bf-shadow-lift: 0 4px 16px rgba(26,22,18,0.06);
   --bf-max: 1140px;
   --bf-gutter: 28px;
+
+  --bf-font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --bf-font-serif: "EB Garamond", Georgia, "Times New Roman", serif;
 }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
-  color: var(--bf-text);
-  background: var(--bf-bg);
+  font-family: var(--bf-font-sans);
+  color: var(--bf-ink);
+  background: var(--bf-cream);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -46,24 +62,31 @@ button { font-family: inherit; cursor: pointer; }
 
 /* Type */
 .bf-eyebrow {
-  font-size: 11px; color: var(--bf-brand); font-weight: 600;
+  font-size: 11px; color: var(--bf-rust); font-weight: 600;
   letter-spacing: 0.08em; text-transform: uppercase;
 }
 h1.bf-h1 {
-  font-size: 56px; line-height: 1.05; font-weight: 600;
+  font-size: 56px; line-height: 1.05; font-weight: 500;
   color: var(--bf-ink); letter-spacing: -0.025em; margin: 14px 0 18px;
 }
 h2.bf-h2 {
-  font-size: 36px; line-height: 1.15; font-weight: 600;
+  font-size: 36px; line-height: 1.15; font-weight: 500;
   color: var(--bf-ink); letter-spacing: -0.02em; margin: 0 0 18px;
 }
 h3.bf-h3 {
-  font-size: 20px; line-height: 1.3; font-weight: 600;
+  font-size: 20px; line-height: 1.3; font-weight: 500;
   color: var(--bf-ink); margin: 0 0 8px;
 }
-.bf-lead { font-size: 18px; line-height: 1.55; color: var(--bf-muted); margin: 0 0 28px; max-width: 56ch; }
-.bf-body { font-size: 15px; line-height: 1.6; color: var(--bf-muted); margin: 0; }
-em.bf-mark { font-style: normal; color: var(--bf-brand); }
+.bf-lead { font-size: 18px; line-height: 1.55; color: var(--bf-mud); margin: 0 0 28px; max-width: 56ch; }
+.bf-body { font-size: 15px; line-height: 1.6; color: var(--bf-mud); margin: 0; }
+/* The italic moment — the brand's signature gesture */
+em.bf-mark {
+  font-family: var(--bf-font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bf-brand);
+  letter-spacing: -0.01em;
+}
 
 /* Buttons */
 .bf-btn {
@@ -82,13 +105,20 @@ em.bf-mark { font-style: normal; color: var(--bf-brand); }
 .bf-btn-lg { padding: 14px 22px; font-size: 15px; }
 
 /* Header */
-.bf-header { border-bottom: 0.5px solid var(--bf-line); background: var(--bf-bg); }
+.bf-header { border-bottom: 0.5px solid var(--bf-line); background: var(--bf-cream); }
 .bf-header-inner {
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 0;
 }
-.bf-logo { font-size: 18px; font-weight: 600; color: var(--bf-ink); letter-spacing: -0.01em; }
-.bf-logo span { color: var(--bf-brand); }
+/* Wordmark: "Booth" sans + "funnel" italic serif in Kodak red */
+.bf-logo { font-size: 22px; font-weight: 500; color: var(--bf-ink); letter-spacing: -0.02em; line-height: 1; }
+.bf-logo span {
+  font-family: var(--bf-font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bf-brand);
+  letter-spacing: -0.01em;
+}
 .bf-nav { display: flex; gap: 28px; font-size: 14px; color: var(--bf-muted); }
 .bf-nav a:hover { color: var(--bf-ink); }
 .bf-nav a.bf-current { color: var(--bf-ink); }
@@ -103,14 +133,14 @@ em.bf-mark { font-style: normal; color: var(--bf-brand); }
   aspect-ratio: 4/3;
   display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px;
 }
-.bf-tile { background: #2A2A2A; border-radius: 4px; }
-.bf-tile.bf-amber { background: var(--bf-amber); }
-.bf-tile.bf-cream { background: var(--bf-bg-cream); }
+.bf-tile { background: #2A241D; border-radius: 4px; }
+.bf-tile.bf-amber { background: var(--bf-brass); }
+.bf-tile.bf-cream { background: var(--bf-white); }
 .bf-tile.bf-coral { background: var(--bf-brand-dark); }
-.bf-tile.bf-gray { background: #5A5A5A; }
+.bf-tile.bf-gray { background: #5A4A38; }
 .bf-tile.bf-brand {
-  background: var(--bf-brand); color: #FFFFFF; font-size: 11px;
-  font-weight: 600; letter-spacing: 0.05em; text-align: center;
+  background: var(--bf-brand); color: var(--bf-cream); font-size: 11px;
+  font-weight: 500; letter-spacing: 0.05em; text-align: center;
   display: flex; align-items: center; justify-content: center; padding: 6px;
 }
 
@@ -142,11 +172,11 @@ em.bf-mark { font-style: normal; color: var(--bf-brand); }
 /* Benefits grid */
 .bf-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
 .bf-benefit {
-  padding: 24px; background: var(--bf-bg);
+  padding: 24px; background: var(--bf-white);
   border-radius: var(--bf-radius); border: 0.5px solid var(--bf-line);
 }
 .bf-benefit-icon {
-  width: 40px; height: 40px; border-radius: 8px; background: #FCEBE5;
+  width: 40px; height: 40px; border-radius: 8px; background: var(--bf-cream-2);
   display: flex; align-items: center; justify-content: center;
   color: var(--bf-brand); margin-bottom: 14px;
 }

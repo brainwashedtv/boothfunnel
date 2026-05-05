@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BoothFunnel · Seal · inverted
+  Use on dark surfaces — booth chassis, footers, dark website backgrounds.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="bf seal inverted">
+  <title>Boothfunnel seal — inverted</title>
+  <circle cx="100" cy="100" r="100" fill="#1A1612"/>
+  <text x="100" y="135"
+        font-family="'GT Sectra', 'Editorial New', Georgia, serif"
+        font-style="italic"
+        font-size="100"
+        font-weight="400"
+        fill="#F2EAD8"
+        text-anchor="middle">bf</text>
+</svg>

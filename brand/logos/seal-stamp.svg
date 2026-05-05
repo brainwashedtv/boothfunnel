@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BoothFunnel · Seal · stamp
+  The Kodak-red "moment" mark. Use on every printed photo (corner stamp), primary CTAs.
+  This is the brand's signature on the product itself.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="bf seal stamp">
+  <title>Boothfunnel seal — stamp</title>
+  <circle cx="100" cy="100" r="100" fill="#B33A2A"/>
+  <text x="100" y="135"
+        font-family="'GT Sectra', 'Editorial New', Georgia, serif"
+        font-style="italic"
+        font-size="100"
+        font-weight="400"
+        fill="#F2EAD8"
+        text-anchor="middle">bf</text>
+</svg>

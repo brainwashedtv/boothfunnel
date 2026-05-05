@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  BoothFunnel · Seal · default (outline)
+  Use for: everyday seal applications. Default secondary mark.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="bf seal">
+  <title>Boothfunnel seal — outline</title>
+  <circle cx="100" cy="100" r="96" fill="none" stroke="#1A1612" stroke-width="2"/>
+  <text x="100" y="135"
+        font-family="'GT Sectra', 'Editorial New', Georgia, serif"
+        font-style="italic"
+        font-size="100"
+        font-weight="400"
+        fill="#1A1612"
+        text-anchor="middle">bf</text>
+</svg>
