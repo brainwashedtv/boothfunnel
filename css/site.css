@@ -133,6 +133,7 @@ em.bf-mark {
   aspect-ratio: 4/3;
   display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px;
 }
+/* Legacy tile grid — kept for backward compatibility */
 .bf-tile { background: #2A241D; border-radius: 4px; }
 .bf-tile.bf-amber { background: var(--bf-brass); }
 .bf-tile.bf-cream { background: var(--bf-white); }
@@ -142,6 +143,69 @@ em.bf-mark {
   background: var(--bf-brand); color: var(--bf-cream); font-size: 11px;
   font-weight: 500; letter-spacing: 0.05em; text-align: center;
   display: flex; align-items: center; justify-content: center; padding: 6px;
+}
+
+/* Polaroid stack — Heritage Frame hero treatment */
+.bf-polaroids {
+  position: relative;
+  aspect-ratio: 4/3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  align-items: center;
+  padding: 20px 4px;
+}
+.bf-polaroid {
+  position: relative;
+  background: var(--bf-white);
+  padding: 12px 12px 36px;
+  border: 0.5px solid var(--bf-line);
+  box-shadow: 0 6px 18px rgba(26, 22, 18, 0.10);
+  transition: transform 0.25s ease;
+}
+.bf-polaroid:nth-child(1) { transform: rotate(-7deg); z-index: 1; }
+.bf-polaroid:nth-child(2) { transform: rotate(3deg) translateY(-18px); z-index: 3; }
+.bf-polaroid:nth-child(3) { transform: rotate(-2deg) translateY(12px); z-index: 2; }
+.bf-polaroids:hover .bf-polaroid:nth-child(1) { transform: rotate(-9deg) translateX(-4px); }
+.bf-polaroids:hover .bf-polaroid:nth-child(3) { transform: rotate(0deg) translateY(8px) translateX(4px); }
+.bf-polaroid-photo {
+  aspect-ratio: 1;
+  background: var(--bf-ink);
+  display: block;
+}
+.bf-polaroid-photo.is-brass { background: var(--bf-brass); }
+.bf-polaroid-photo.is-red   { background: var(--bf-brand-dark); }
+.bf-polaroid-photo.is-cream { background: var(--bf-cream-2); }
+.bf-polaroid-photo.is-rust  { background: var(--bf-rust); }
+.bf-polaroid-cap {
+  position: absolute;
+  bottom: 10px; left: 14px; right: 14px;
+  font-family: ui-monospace, "SF Mono", "Menlo", monospace;
+  font-size: 10px;
+  color: var(--bf-ink);
+  letter-spacing: 0.02em;
+}
+.bf-polaroid-stamp {
+  position: absolute;
+  bottom: 38px; right: 14px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--bf-brand);
+  color: var(--bf-cream);
+  font-family: var(--bf-font-serif);
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+@media (max-width: 900px) {
+  .bf-polaroids { padding: 28px 16px; }
+  .bf-polaroid:nth-child(1) { transform: rotate(-5deg); }
+  .bf-polaroid:nth-child(2) { transform: rotate(2deg) translateY(-12px); }
+  .bf-polaroid:nth-child(3) { transform: rotate(-1deg) translateY(8px); }
 }
 
 /* Trust strip */
