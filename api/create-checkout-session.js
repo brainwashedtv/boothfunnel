@@ -1,17 +1,15 @@
 // POST /api/create-checkout-session
-// Body: { plan: 'starter' | 'growth', venue_name, contact_email, ...all the form fields }
+// Body: { plan: 'growth', venue_name, contact_email, ...all the form fields }
 // Returns: { url: <Stripe Checkout redirect URL> }
 //
 // Required env vars:
 //   STRIPE_SECRET_KEY            sk_live_... or sk_test_...
-//   STRIPE_PRICE_STARTER         price_...   (Stripe recurring price)
-//   STRIPE_PRICE_GROWTH          price_...
+//   STRIPE_PRICE_GROWTH          price_...   (Stripe recurring price for the $499/mo plan)
 //   PUBLIC_BASE_URL              https://boothfunnel.com  (no trailing slash)
 
 const Stripe = require('stripe');
 
 const PRICE_BY_PLAN = {
-  starter: process.env.STRIPE_PRICE_STARTER,
   growth: process.env.STRIPE_PRICE_GROWTH,
 };
 
