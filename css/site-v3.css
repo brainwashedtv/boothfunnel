@@ -567,7 +567,20 @@ em.bf-mark {
   width: 32px; height: 32px; border-radius: 50%; background: var(--bf-ink);
   color: #FFFFFF; font-size: 14px; font-weight: 600;
   display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  flex: none;
 }
+/* Header row: step number + concept icon side-by-side at the top of each step card */
+.bf-step-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+}
+.bf-step-header .bf-step-num { margin-bottom: 0; }
+.bf-step-icon {
+  width: 40px; height: 40px; border-radius: 8px; background: var(--bf-cream-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--bf-brand); flex: none;
+  margin-left: auto;
+}
+.bf-step-icon svg { width: 22px; height: 22px; }
 
 /* Benefits grid */
 .bf-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
