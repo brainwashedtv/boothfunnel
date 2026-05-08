@@ -225,11 +225,16 @@ em.bf-mark {
   aspect-ratio: 1;
   background: var(--bf-ink);
   display: block;
+  width: 100%;
 }
 .bf-polaroid-photo.is-brass { background: var(--bf-brass); }
 .bf-polaroid-photo.is-red   { background: var(--bf-brand-dark); }
 .bf-polaroid-photo.is-cream { background: var(--bf-cream-2); }
 .bf-polaroid-photo.is-rust  { background: var(--bf-rust); }
+.bf-polaroid-video {
+  object-fit: cover;
+  background: var(--bf-ink);
+}
 .bf-polaroid-cap {
   position: absolute;
   bottom: 10px; left: 14px; right: 14px;
