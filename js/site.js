@@ -26,23 +26,35 @@
   targets.forEach(function (el) { io.observe(el); });
 })();
 
-// Intro overlay — show on first page of a session, skip thereafter
+// Intro overlay — show on first page of a session, skip thereafter.
+// Bulletproof: multiple removal triggers so the overlay can never get stuck.
 (function () {
   var intro = document.getElementById('bf-intro');
   if (!intro) return;
+
+  function kill() {
+    if (!intro || !intro.parentNode) return;
+    intro.classList.add('is-done');
+    intro.style.display = 'none';
+    intro.style.visibility = 'hidden';
+    try { intro.parentNode.removeChild(intro); } catch (_) {}
+  }
+
   // Skip if user has seen it already in this session
   try {
-    if (sessionStorage.getItem('bf-intro-seen')) {
-      intro.parentNode && intro.parentNode.removeChild(intro);
-      return;
-    }
+    if (sessionStorage.getItem('bf-intro-seen')) { kill(); return; }
     sessionStorage.setItem('bf-intro-seen', '1');
-  } catch (_) { /* private mode etc — just play it */ }
-  // Remove from DOM after the flash animation finishes so it doesn't capture pointer/scroll
-  setTimeout(function () {
-    intro.classList.add('is-done');
-    setTimeout(function () {
-      intro.parentNode && intro.parentNode.removeChild(intro);
-    }, 100);
-  }, 2200);
+  } catch (_) { /* private mode — just play it */ }
+
+  // Primary trigger: remove after the animation duration
+  setTimeout(kill, 2200);
+
+  // Belt-and-suspenders: also listen for animationend
+  intro.addEventListener('animationend', function (e) {
+    if (e.animationName === 'bf-flash') kill();
+  });
+
+  // Hard fallback: if anything goes wrong (animation paused, JS err, etc),
+  // ensure the overlay is gone within 4 seconds no matter what.
+  setTimeout(kill, 4000);
 })();
