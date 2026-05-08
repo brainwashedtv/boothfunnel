@@ -127,7 +127,7 @@ em.bf-mark {
 
 /* Hero */
 .bf-hero { padding: 72px 0 56px; }
-.bf-hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+.bf-hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
 .bf-hero-ctas { display: flex; gap: 12px; }
 .bf-hero-art {
   background: var(--bf-ink); border-radius: var(--bf-radius-lg); padding: 22px;
@@ -203,10 +203,11 @@ em.bf-mark {
   position: relative;
   aspect-ratio: 4/3;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
   align-items: center;
   padding: 20px 4px;
+  max-width: 100%;
 }
 .bf-polaroid {
   position: relative;
@@ -215,6 +216,8 @@ em.bf-mark {
   border: 0.5px solid var(--bf-line);
   box-shadow: 0 6px 18px rgba(26, 22, 18, 0.10);
   transition: transform 0.25s ease;
+  min-width: 0;
+  max-width: 100%;
 }
 .bf-polaroid:nth-child(1) { transform: rotate(-7deg); z-index: 1; }
 .bf-polaroid:nth-child(2) { transform: rotate(3deg) translateY(-18px); z-index: 3; }
@@ -234,6 +237,9 @@ em.bf-mark {
 .bf-polaroid-video {
   object-fit: cover;
   background: var(--bf-ink);
+  width: 100%;
+  height: auto;
+  max-width: 100%;
 }
 .bf-polaroid-cap {
   position: absolute;
