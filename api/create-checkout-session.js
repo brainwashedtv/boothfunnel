@@ -3,23 +3,36 @@
 // Returns: { url: <Stripe Checkout redirect URL> }
 //
 // Required env vars:
-//   STRIPE_SECRET_KEY            sk_live_... or sk_test_...
-//   STRIPE_PRICE_FLEXIBLE        price_...   ($1,485 recurring every 3 months — "$495/mo, billed quarterly")
-//   STRIPE_PRICE_ANNUAL          price_...   ($2,190 recurring every 6 months — "$365/mo, 12-mo commitment, billed semi-annually")
-//   PUBLIC_BASE_URL              https://boothfunnel.com  (no trailing slash)
+//   STRIPE_SECRET_KEY                sk_live_... or sk_test_...
+//   STRIPE_PRICE_FLEXIBLE_SETUP      price_...  ONE-TIME $1,485 — covers months 1–3 of the flexible plan
+//   STRIPE_PRICE_FLEXIBLE_MONTHLY    price_...  recurring $495/mo — kicks in month 4 (after 90-day trial)
+//   STRIPE_PRICE_ANNUAL              price_...  recurring $4,380/year — full year up front
+//   PUBLIC_BASE_URL                  https://boothfunnel.com  (no trailing slash)
 //
-// "bulk" (50+ booths) is handled on the client — it short-circuits to /contact?topic=bulk
-// rather than going through self-serve checkout.
+// Billing model:
+//   flexible: one-time $1,485 charge today + monthly $495 subscription with 90-day trial.
+//             Customer pays $1,485 now, nothing for 3 months, then $495/mo from month 4 on.
+//             Cancel any time after the first 3 months.
+//   annual:   yearly $4,380 subscription — charges $4,380 today, renews annually.
+//   bulk:     handled client-side; redirects to /contact?topic=bulk (no Stripe session).
 //
 // Backward compat: STRIPE_PRICE_GROWTH still works if set, mapped to plan='growth'.
 
 const Stripe = require('stripe');
 
-const PRICE_BY_PLAN = {
-  flexible: process.env.STRIPE_PRICE_FLEXIBLE,
-  annual:   process.env.STRIPE_PRICE_ANNUAL,
-  // Legacy mapping — keep so old links/tests keep working until env is migrated.
-  growth:   process.env.STRIPE_PRICE_GROWTH,
+const PLAN_CONFIG = {
+  flexible: {
+    setupFee: process.env.STRIPE_PRICE_FLEXIBLE_SETUP,
+    recurring: process.env.STRIPE_PRICE_FLEXIBLE_MONTHLY,
+    trialDays: 90,
+  },
+  annual: {
+    recurring: process.env.STRIPE_PRICE_ANNUAL,
+  },
+  // Legacy: old single-tier $499/mo. Kept so links during migration don't 400.
+  growth: {
+    recurring: process.env.STRIPE_PRICE_GROWTH,
+  },
 };
 
 module.exports = async function handler(req, res) {
@@ -43,9 +56,9 @@ module.exports = async function handler(req, res) {
   body = body || {};
 
   const plan = String(body.plan || '').toLowerCase();
-  const priceId = PRICE_BY_PLAN[plan];
-  if (!priceId) {
-    return res.status(400).json({ error: 'invalid_plan' });
+  const config = PLAN_CONFIG[plan];
+  if (!config || !config.recurring) {
+    return res.status(400).json({ error: 'invalid_plan', plan: plan });
   }
 
   // Strip undefined values so we don't push junk to Stripe metadata.
@@ -60,17 +73,33 @@ module.exports = async function handler(req, res) {
   });
   metadata.plan = plan;
 
+  // Build line items: optional one-time setup fee + the recurring subscription price.
+  // Flexible: $1,485 setup (one-time) + $495/mo recurring with 90-day trial.
+  // Annual:   $4,380/year recurring (no setup fee, no trial).
+  const lineItems = [];
+  if (config.setupFee) {
+    lineItems.push({ price: config.setupFee, quantity: 1 });
+  }
+  lineItems.push({ price: config.recurring, quantity: 1 });
+
+  const subscriptionData = { metadata: metadata };
+  if (config.trialDays) {
+    // The trial defers the FIRST recurring charge by N days, so the customer
+    // pays only the one-time setup fee today. Recurring kicks in after the trial.
+    subscriptionData.trial_period_days = config.trialDays;
+  }
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
-      line_items: [{ price: priceId, quantity: 1 }],
+      line_items: lineItems,
       customer_email: body.contact_email || undefined,
       success_url: baseUrl + '/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: baseUrl + '/cancel',
       allow_promotion_codes: true,
       billing_address_collection: 'required',
-      metadata,
-      subscription_data: { metadata },
+      metadata: metadata,
+      subscription_data: subscriptionData,
     });
     return res.status(200).json({ url: session.url });
   } catch (err) {

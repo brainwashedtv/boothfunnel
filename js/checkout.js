@@ -122,9 +122,9 @@
   function renderReview() {
     var d = collect();
     var planLabels = {
-      flexible: 'Flexible · 3-month — $495/mo, billed quarterly ($1,485 every 3 mo)',
-      annual:   'Annual · 12-month — $365/mo, billed every 6 months ($2,190 every 6 mo)',
-      bulk:     'Bulk · 50+ booths — $285/mo per booth (sales-led)',
+      flexible: 'Flexible — $1,485 today (months 1–3), then $495/mo from month 4. Cancel any time after that.',
+      annual:   'Annual — $4,380 today, covers all 12 months ($365/mo effective rate). Renews annually.',
+      bulk:     'Bulk · 50+ booths — $285/mo per booth, sales-led rollout.',
       // Legacy:
       growth:   'Growth — $499/mo',
       multi:    'Multi-location — custom',

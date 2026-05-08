@@ -65,22 +65,28 @@ When a guest takes a photo, the booth automatically generates three parallel mar
 
 This is the new focal point of the website's home page and brand deck.
 
-## Pricing reality (revised May 7, 2026)
+## Pricing reality (revised May 8, 2026)
 
-**Three commitment tiers, all same fully-featured package:**
+**Three tiers, all same fully-featured package, but different billing models:**
 
-| Plan | Monthly rate | Commitment | Billing cadence | Charge per cycle |
-|---|---|---|---|---|
-| Flexible | $495/mo | 3-month minimum | Every 3 months | $1,485 |
-| Annual (most popular) | $365/mo | 12-month | Every 6 months | $2,190 |
-| Bulk (50+) | $285/mo per booth | 12-month, 50+ units | Every 6 months | $1,710 × N booths |
+| Plan | Effective rate | First charge | Recurring after that |
+|---|---|---|---|
+| Flexible | $495/mo | **$1,485 today** (covers months 1–3) | $495/mo from month 4 onward, cancel any time |
+| Annual (most popular) | $365/mo | **$4,380 today** (covers a full year up front) | Renews annually at $4,380 |
+| Bulk (50+) | $285/mo per booth | 6 months up front | Sales-led rollout |
 
-Internal plan keys used by the code (`plan` field in checkout payload):
-- `flexible` → Stripe price env: `STRIPE_PRICE_FLEXIBLE` (recurring every 3 months at $1,485)
-- `annual`   → Stripe price env: `STRIPE_PRICE_ANNUAL` (recurring every 6 months at $2,190)
-- `bulk`     → no Stripe price; client redirects to `/contact?topic=bulk` for sales-led rollout
+Internal plan keys (`plan` field in the POST body to `/api/create-checkout-session`):
 
-Legacy: `STRIPE_PRICE_GROWTH` (= old single $499/mo plan) still wired as fallback `growth` plan key. Remove once Vercel env is migrated to the two new IDs.
+- `flexible` → ONE-TIME `STRIPE_PRICE_FLEXIBLE_SETUP` ($1,485) **plus** recurring `STRIPE_PRICE_FLEXIBLE_MONTHLY` ($495/mo) **plus** `subscription_data.trial_period_days = 90`. The trial is what makes "you only pay $1,485 today and the monthly billing starts on day 91" work in Stripe Checkout subscription mode.
+- `annual`   → recurring `STRIPE_PRICE_ANNUAL` ($4,380, billing interval = 1 year). One charge today, renews annually.
+- `bulk`     → no Stripe price; client redirects to `/contact?topic=bulk`.
+
+**Stripe products needed:**
+1. **Flexible — Setup (months 1–3)** · price: $1,485 USD · **one-time** · env var `STRIPE_PRICE_FLEXIBLE_SETUP`
+2. **Flexible — Monthly (month 4+)** · price: $495 USD · **recurring monthly** · env var `STRIPE_PRICE_FLEXIBLE_MONTHLY`
+3. **Annual** · price: $4,380 USD · **recurring yearly** · env var `STRIPE_PRICE_ANNUAL`
+
+Legacy: `STRIPE_PRICE_GROWTH` (= old single $499/mo plan) still wired as fallback `growth` plan key. Delete from Vercel env once the three above are in place.
 
 **Every base package includes:**
 - Monthly data delivery + analytics
