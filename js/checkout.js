@@ -105,12 +105,12 @@
     });
   }
 
-  // ---- Bulk / multi-location short-circuit ----
-  // "bulk" (50+) and the legacy "multi" both bypass self-serve checkout
+  // ---- Group / Bulk / multi-location short-circuit ----
+  // "group" (5-49), "bulk" (50+), and the legacy "multi" all bypass self-serve checkout
   // and land on /contact so we can scope the rollout manually.
   function maybeRedirectMulti() {
     var plan = (collect().plan || '').toLowerCase();
-    if (plan === 'bulk' || plan === 'multi') {
+    if (plan === 'group' || plan === 'bulk' || plan === 'multi') {
       persist();
       window.location.href = '/contact?topic=' + encodeURIComponent(plan);
       return true;
@@ -122,8 +122,9 @@
   function renderReview() {
     var d = collect();
     var planLabels = {
-      flexible: 'Flexible — $1,485 today (months 1–3), then $495/mo from month 4. Cancel any time after that.',
+      flexible: 'Flexible — $495/mo billed monthly. 3-month minimum, then cancel any time. 100-contacts-month-1 money-back guarantee.',
       annual:   'Annual — $4,380 today, covers all 12 months ($365/mo effective rate). Renews annually.',
+      group:    'Group · 5–49 booths — $325/mo per booth, sales-led rollout.',
       bulk:     'Bulk · 50+ booths — $285/mo per booth, sales-led rollout.',
       // Legacy:
       growth:   'Growth — $499/mo',
@@ -161,7 +162,7 @@
     }
     var data = collect();
     if (!data.plan) { status.textContent = 'Pick a plan first.'; return; }
-    if (data.plan === 'bulk' || data.plan === 'multi') return maybeRedirectMulti();
+    if (data.plan === 'group' || data.plan === 'bulk' || data.plan === 'multi') return maybeRedirectMulti();
 
     status.style.color = 'var(--bf-muted)';
     status.textContent = 'Connecting to Stripe...';

@@ -65,28 +65,42 @@ When a guest takes a photo, the booth automatically generates three parallel mar
 
 This is the new focal point of the website's home page and brand deck.
 
-## Pricing reality (revised May 8, 2026)
+## Pricing reality (revised May 8, 2026 — late)
 
-**Three tiers, all same fully-featured package, but different billing models:**
+**Four tiers, all same fully-featured package:**
 
-| Plan | Effective rate | First charge | Recurring after that |
+| Plan | Effective rate | Billing model | Stripe? |
 |---|---|---|---|
-| Flexible | $495/mo | **$1,485 today** (covers months 1–3) | $495/mo from month 4 onward, cancel any time |
-| Annual (most popular) | $365/mo | **$4,380 today** (covers a full year up front) | Renews annually at $4,380 |
-| Bulk (50+) | $285/mo per booth | 6 months up front | Sales-led rollout |
+| Flexible | $495/mo | $495 charged today, recurring monthly. **3-month minimum commitment enforced via Terms** (not via Stripe). 100-contacts-month-1 money-back guarantee. | Recurring monthly |
+| Annual (most popular) | $365/mo | $4,380 charged today, covers full year. Renews annually. | Recurring yearly |
+| Group | $325/mo per booth | 5–49 booths. Billed every 6 months. **Sales-led**, no self-serve checkout. | None — routes to /contact?topic=group |
+| Bulk | $285/mo per booth | 50+ booths. Billed every 6 months. **Sales-led**. | None — routes to /contact?topic=bulk |
 
 Internal plan keys (`plan` field in the POST body to `/api/create-checkout-session`):
 
-- `flexible` → ONE-TIME `STRIPE_PRICE_FLEXIBLE_SETUP` ($1,485) **plus** recurring `STRIPE_PRICE_FLEXIBLE_MONTHLY` ($495/mo) **plus** `subscription_data.trial_period_days = 90`. The trial is what makes "you only pay $1,485 today and the monthly billing starts on day 91" work in Stripe Checkout subscription mode.
+- `flexible` → recurring `STRIPE_PRICE_FLEXIBLE_MONTHLY` ($495/mo). No setup fee, no trial. Customer pays $495 today and is charged $495 every 30 days; the 3-month minimum is contractual via Terms (no automatic refund window).
 - `annual`   → recurring `STRIPE_PRICE_ANNUAL` ($4,380, billing interval = 1 year). One charge today, renews annually.
+- `group`    → no Stripe price; client redirects to `/contact?topic=group`.
 - `bulk`     → no Stripe price; client redirects to `/contact?topic=bulk`.
 
-**Stripe products needed:**
-1. **Flexible — Setup (months 1–3)** · price: $1,485 USD · **one-time** · env var `STRIPE_PRICE_FLEXIBLE_SETUP`
-2. **Flexible — Monthly (month 4+)** · price: $495 USD · **recurring monthly** · env var `STRIPE_PRICE_FLEXIBLE_MONTHLY`
-3. **Annual** · price: $4,380 USD · **recurring yearly** · env var `STRIPE_PRICE_ANNUAL`
+**Stripe products needed (only two now):**
+1. **Flexible — Monthly** · price: $495 USD · **recurring monthly** · env var `STRIPE_PRICE_FLEXIBLE_MONTHLY`
+2. **Annual** · price: $4,380 USD · **recurring yearly** · env var `STRIPE_PRICE_ANNUAL`
 
-Legacy: `STRIPE_PRICE_GROWTH` (= old single $499/mo plan) still wired as fallback `growth` plan key. Delete from Vercel env once the three above are in place.
+Legacy:
+- `STRIPE_PRICE_GROWTH` (= old single $499/mo plan) still wired as fallback `growth` plan key. Delete from Vercel env once the two above are in place.
+- Old `STRIPE_PRICE_FLEXIBLE_SETUP` env var is no longer referenced in code — safe to delete from Vercel.
+
+**Money-back guarantee on Flexible:** "100 contacts captured in your first month or full refund." Operationally, refund is processed manually via Stripe dashboard if a customer hits month 1 + below 100 contacts.
+
+**Cancellation/return-shipping policy (live on Pricing page):**
+- Flexible: cancel any time after month 3.
+- Annual: runs the full 12 months; auto-renews unless cancelled before renewal.
+- Group/Bulk: end of each 6-month term.
+- BoothFunnel pays return shipping. Customer has 14 days from cancellation to ship hardware back.
+
+**Marketing-agency anchor (live on top of Pricing page):**
+"A marketing agency delivering the same three outcomes — UGC at scale, an evergreen content library, and a CRM-ready contact list — typically charges $4,500–$8,000/month on retainer."
 
 **Every base package includes:**
 - Monthly data delivery + analytics

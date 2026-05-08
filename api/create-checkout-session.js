@@ -4,17 +4,17 @@
 //
 // Required env vars:
 //   STRIPE_SECRET_KEY                sk_live_... or sk_test_...
-//   STRIPE_PRICE_FLEXIBLE_SETUP      price_...  ONE-TIME $1,485 — covers months 1–3 of the flexible plan
-//   STRIPE_PRICE_FLEXIBLE_MONTHLY    price_...  recurring $495/mo — kicks in month 4 (after 90-day trial)
+//   STRIPE_PRICE_FLEXIBLE_MONTHLY    price_...  recurring $495/mo
 //   STRIPE_PRICE_ANNUAL              price_...  recurring $4,380/year — full year up front
 //   PUBLIC_BASE_URL                  https://boothfunnel.com  (no trailing slash)
 //
 // Billing model:
-//   flexible: one-time $1,485 charge today + monthly $495 subscription with 90-day trial.
-//             Customer pays $1,485 now, nothing for 3 months, then $495/mo from month 4 on.
-//             Cancel any time after the first 3 months.
-//   annual:   yearly $4,380 subscription — charges $4,380 today, renews annually.
-//   bulk:     handled client-side; redirects to /contact?topic=bulk (no Stripe session).
+//   flexible: $495/mo, charged monthly from day 1. 3-month minimum commitment is enforced
+//             contractually via the Terms — Stripe just bills monthly. Backed by the
+//             100-contacts-month-1 money-back guarantee handled out of band.
+//   annual:   $4,380/year subscription — charges today, renews annually.
+//   group:    handled client-side; 5-49 booths route to /contact?topic=group.
+//   bulk:     handled client-side; 50+ booths route to /contact?topic=bulk.
 //
 // Backward compat: STRIPE_PRICE_GROWTH still works if set, mapped to plan='growth'.
 
@@ -22,9 +22,7 @@ const Stripe = require('stripe');
 
 const PLAN_CONFIG = {
   flexible: {
-    setupFee: process.env.STRIPE_PRICE_FLEXIBLE_SETUP,
     recurring: process.env.STRIPE_PRICE_FLEXIBLE_MONTHLY,
-    trialDays: 90,
   },
   annual: {
     recurring: process.env.STRIPE_PRICE_ANNUAL,
@@ -73,21 +71,10 @@ module.exports = async function handler(req, res) {
   });
   metadata.plan = plan;
 
-  // Build line items: optional one-time setup fee + the recurring subscription price.
-  // Flexible: $1,485 setup (one-time) + $495/mo recurring with 90-day trial.
-  // Annual:   $4,380/year recurring (no setup fee, no trial).
-  const lineItems = [];
-  if (config.setupFee) {
-    lineItems.push({ price: config.setupFee, quantity: 1 });
-  }
-  lineItems.push({ price: config.recurring, quantity: 1 });
-
+  // Both Flexible and Annual are simple recurring subscriptions — single line item, no trial.
+  // (Group and Bulk redirect to /contact and never reach this handler.)
+  const lineItems = [{ price: config.recurring, quantity: 1 }];
   const subscriptionData = { metadata: metadata };
-  if (config.trialDays) {
-    // The trial defers the FIRST recurring charge by N days, so the customer
-    // pays only the one-time setup fee today. Recurring kicks in after the trial.
-    subscriptionData.trial_period_days = config.trialDays;
-  }
 
   try {
     const session = await stripe.checkout.sessions.create({
