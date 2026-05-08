@@ -152,11 +152,101 @@ em.bf-mark {
 /* The actual strip image — real client output as the funnel input */
 .bf-funnel-strip {
   display: block;
-  max-width: 150px;
+  max-width: 185px;
   width: 100%;
   height: auto;
   box-shadow: 0 10px 28px rgba(26,22,18,0.22);
   transform: rotate(-1.5deg);
+  transition: transform 0.4s ease;
+}
+.bf-funnel-strip:hover { transform: rotate(0deg) scale(1.03); }
+
+/* Icon system — consistent line-style icons */
+.bf-icon { display: inline-block; width: 22px; height: 22px; stroke-width: 1.5; flex-shrink: 0; }
+
+/* Card hover — subtle lift */
+.bf-benefit, .bf-step, .bf-tier, .bf-industry, .bf-funnel-channel {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.bf-benefit:hover, .bf-step:hover, .bf-funnel-channel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(26, 22, 18, 0.10);
+  border-color: var(--bf-line-2);
+}
+
+/* Industries — refresh with icons */
+.bf-industry-icon {
+  width: 32px; height: 32px;
+  margin-bottom: 14px;
+  color: var(--bf-brass);
+  display: block;
+}
+.bf-industry:hover .bf-industry-icon { color: var(--bf-cream); }
+
+/* Activated journey — 4 step visual */
+.bf-journey {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  position: relative;
+}
+.bf-journey-step {
+  text-align: center;
+  padding: 0 14px;
+  position: relative;
+}
+.bf-journey-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 22px;
+  right: -50%;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--bf-brass) 0%, var(--bf-brass) 50%, transparent 50%, transparent 100%);
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+  opacity: 0.5;
+  z-index: 0;
+}
+.bf-journey-icon {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(201, 160, 99, 0.5);
+  border-radius: 50%;
+  background: var(--bf-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  color: var(--bf-brass);
+  position: relative;
+  z-index: 1;
+}
+.bf-journey-icon svg { width: 20px; height: 20px; }
+.bf-journey-label {
+  font-family: ui-monospace, "SF Mono", monospace;
+  font-size: 10px;
+  color: var(--bf-brass);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.bf-journey-text {
+  font-family: var(--bf-font-sans);
+  font-size: 13px;
+  color: rgba(242, 234, 216, 0.78);
+  line-height: 1.5;
+}
+@media (max-width: 800px) {
+  .bf-journey { grid-template-columns: 1fr; gap: 14px; }
+  .bf-journey-step::after { display: none !important; }
+}
+
+/* Scroll fade-in */
+.bf-fade { opacity: 0; transform: translateY(14px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.bf-fade.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .bf-fade { opacity: 1; transform: none; transition: none; }
 }
 
 /* Activated customers section */
@@ -386,11 +476,13 @@ em.bf-mark {
   .bf-polaroid:nth-child(3) { transform: rotate(-1deg) translateY(8px); }
 }
 
-/* Trust strip */
+/* Trust strip — matches the activated section palette */
 .bf-trust {
-  background: var(--bf-cream-2); border-top: 0.5px solid var(--bf-line);
-  border-bottom: 0.5px solid var(--bf-line); padding: 24px 0;
+  background: var(--bf-ink); border-top: 0.5px solid var(--bf-ink-2);
+  border-bottom: 0.5px solid var(--bf-ink-2); padding: 24px 0;
 }
+.bf-trust .bf-trust-label { color: var(--bf-brass); }
+.bf-trust .bf-logo-pill { background: rgba(242, 234, 216, 0.18); }
 .bf-trust-row { display: flex; align-items: center; gap: 28px; }
 .bf-trust-label {
   font-size: 11px; color: var(--bf-hint); letter-spacing: 0.05em;

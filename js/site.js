@@ -9,6 +9,23 @@
   });
 })();
 
+// Scroll-triggered fade-in for major sections
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  // Tag every major section so they fade in as the user scrolls past them
+  var targets = document.querySelectorAll('.bf-section, .bf-section-tight, .bf-cta-banner');
+  targets.forEach(function (el) { el.classList.add('bf-fade'); });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+})();
+
 // Intro overlay — show on first page of a session, skip thereafter
 (function () {
   var intro = document.getElementById('bf-intro');
