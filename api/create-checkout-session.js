@@ -44,6 +44,7 @@ module.exports = async function handler(req, res) {
   const metadata = {};
   ['venue_name', 'venue_type', 'contact_name', 'contact_email', 'contact_phone',
    'brand_display', 'brand_color', 'brand_hashtag', 'brand_instagram',
+   'logo_url', 'logo_filename',
    'ship_address1', 'ship_address2', 'ship_city', 'ship_state', 'ship_zip', 'ship_network',
    'ship_notes'].forEach(function (k) {
     if (body[k]) metadata[k] = String(body[k]).slice(0, 500);

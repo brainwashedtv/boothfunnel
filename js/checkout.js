@@ -15,6 +15,9 @@
   var current = 1;
   var totalSteps = panes.length;
 
+  // Logo upload state — populated when the user drops a file in step 3.
+  var logoState = { url: '', filename: '', uploading: false };
+
   // ---- State persistence ----
   function readSaved() {
     try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '{}'); }
@@ -27,21 +30,40 @@
   function hydrate() {
     var saved = readSaved();
     Object.keys(saved).forEach(function (name) {
+      if (name === 'logo_url' || name === 'logo_filename') return; // file-state, not a form field
       var inputs = form.querySelectorAll('[name="' + name + '"]');
       if (!inputs.length) return;
+      if (inputs[0].type === 'file') return; // can't programmatically restore a File object
       if (inputs[0].type === 'radio') {
         inputs.forEach(function (i) { i.checked = (i.value === saved[name]); });
-        // Also restore the .bf-selected highlight on plan options.
         if (name === 'plan') updatePlanHighlight();
       } else {
         inputs[0].value = saved[name];
       }
     });
+    if (saved.logo_url) {
+      logoState.url = saved.logo_url;
+      logoState.filename = saved.logo_filename || '';
+      var dz = document.getElementById('bf-dropzone');
+      var t = document.getElementById('bf-dropzone-title');
+      var s = document.getElementById('bf-dropzone-sub');
+      if (dz) dz.classList.add('is-uploaded');
+      if (t) t.textContent = logoState.filename || 'Logo uploaded';
+      if (s) s.textContent = 'Uploaded ✓  Click to replace';
+    }
   }
 
   function collect() {
     var data = {};
-    new FormData(form).forEach(function (v, k) { data[k] = v; });
+    new FormData(form).forEach(function (v, k) {
+      // Skip the file input — its bytes live in Vercel Blob; we forward the URL only.
+      if (typeof File !== 'undefined' && v instanceof File) return;
+      data[k] = v;
+    });
+    if (logoState.url) {
+      data.logo_url = logoState.url;
+      data.logo_filename = logoState.filename;
+    }
     return data;
   }
 
@@ -109,6 +131,7 @@
       (d.brand_color ? ' · color ' + esc(d.brand_color) : '') +
       (d.brand_hashtag ? ' · ' + esc(d.brand_hashtag) : '') +
       (d.brand_instagram ? ' · ' + esc(d.brand_instagram) : '') +
+      (d.logo_url ? '<br>Logo: <a href="' + esc(d.logo_url) + '" target="_blank" rel="noopener">' + esc(d.logo_filename || 'view') + '</a>' : '') +
       '<br><br><strong>Ship to</strong><br>' +
       esc(d.ship_address1 || '') + (d.ship_address2 ? ', ' + esc(d.ship_address2) : '') + '<br>' +
       esc(d.ship_city || '') + ', ' + esc(d.ship_state || '') + ' ' + esc(d.ship_zip || '') +
@@ -123,6 +146,11 @@
   // ---- Stripe handoff ----
   function payWithStripe() {
     if (!validateStep(5)) return;
+    if (logoState.uploading) {
+      status.style.color = 'var(--bf-danger)';
+      status.textContent = 'Your logo is still uploading. One sec.';
+      return;
+    }
     var data = collect();
     if (!data.plan) { status.textContent = 'Pick a plan first.'; return; }
     if (data.plan === 'multi') return maybeRedirectMulti();
@@ -149,10 +177,102 @@
       });
   }
 
+  // ---- Logo upload (step 3) ----
+  var dropzone = document.getElementById('bf-dropzone');
+  var fileInput = document.getElementById('brand-logo');
+  var dzTitle = document.getElementById('bf-dropzone-title');
+  var dzSub = document.getElementById('bf-dropzone-sub');
+  var dzStatus = document.getElementById('bf-dropzone-status');
+  var dzProgress = document.getElementById('bf-dropzone-progress');
+
+  function setDzStatus(msg, isError) {
+    if (!dzStatus) return;
+    dzStatus.textContent = msg || '';
+    dzStatus.style.color = isError ? 'var(--bf-danger)' : 'var(--bf-muted)';
+  }
+
+  function uploadLogo(file) {
+    if (!file) return;
+    if (file.size > 6 * 1024 * 1024) {
+      setDzStatus('That file is over 6 MB. Try compressing or send as SVG.', true);
+      return;
+    }
+    logoState.uploading = true;
+    if (dropzone) dropzone.classList.add('is-uploading');
+    if (dzProgress) dzProgress.hidden = false;
+    setDzStatus('Uploading ' + file.name + '…');
+
+    var qs = '?filename=' + encodeURIComponent(file.name);
+    fetch('/api/upload-logo' + qs, {
+      method: 'POST',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file,
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('upload failed (' + r.status + ')');
+        return r.json();
+      })
+      .then(function (j) {
+        if (!j.url) throw new Error('no url');
+        logoState.url = j.url;
+        logoState.filename = file.name;
+        logoState.uploading = false;
+        if (dropzone) {
+          dropzone.classList.remove('is-uploading');
+          dropzone.classList.add('is-uploaded');
+        }
+        if (dzProgress) dzProgress.hidden = true;
+        if (dzTitle) dzTitle.textContent = file.name;
+        if (dzSub) dzSub.textContent = 'Uploaded ✓  Click to replace';
+        setDzStatus('Logo saved.');
+        persist();
+      })
+      .catch(function (err) {
+        logoState.uploading = false;
+        if (dropzone) dropzone.classList.remove('is-uploading');
+        if (dzProgress) dzProgress.hidden = true;
+        setDzStatus('Upload failed. Email it to hello@boothfunnel.com or try again.', true);
+        console && console.error && console.error(err);
+      });
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener('change', function (e) {
+      if (e.target.files && e.target.files[0]) uploadLogo(e.target.files[0]);
+    });
+  }
+  if (dropzone) {
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      dropzone.addEventListener(ev, function (e) {
+        e.preventDefault(); e.stopPropagation();
+        dropzone.classList.add('is-dragging');
+      });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      dropzone.addEventListener(ev, function (e) {
+        e.preventDefault(); e.stopPropagation();
+        dropzone.classList.remove('is-dragging');
+      });
+    });
+    dropzone.addEventListener('drop', function (e) {
+      var dt = e.dataTransfer;
+      if (dt && dt.files && dt.files[0]) {
+        if (fileInput) {
+          try { fileInput.files = dt.files; } catch (_) {}
+        }
+        uploadLogo(dt.files[0]);
+      }
+    });
+  }
+
   // ---- Wire it up ----
   form.addEventListener('click', function (e) {
     if (e.target.matches('[data-next]')) {
       if (!validateStep(current)) return;
+      if (current === 3 && logoState.uploading) {
+        setDzStatus('Hang on — your logo is still uploading.', true);
+        return;
+      }
       persist();
       if (current === 2 && maybeRedirectMulti()) return;
       show(current + 1);

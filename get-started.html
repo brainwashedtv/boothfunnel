@@ -136,11 +136,34 @@
       <div class="bf-step-pane" data-pane="3">
         <p class="bf-step-meta">Step 3 of 6 · Branding basics</p>
         <h2 class="bf-h2" style="font-size: 24px;">Make it look like yours.</h2>
-        <p class="bf-help" style="margin: 0 0 18px;">You can upload a logo file later. For now, the basics are enough to pre-configure your unit.</p>
+        <p class="bf-help" style="margin: 0 0 18px;">Drop in a logo and the basics. We'll use these to pre-configure your unit before it ships.</p>
         <div class="bf-field">
           <label class="bf-label" for="brand-display">How should your venue's name appear on each photo?</label>
           <input class="bf-input" id="brand-display" name="brand_display" placeholder="e.g. The Lantern Room" required />
         </div>
+
+        <div class="bf-field">
+          <label class="bf-label" for="brand-logo">Logo or branding file</label>
+          <label class="bf-dropzone" id="bf-dropzone" for="brand-logo">
+            <input class="bf-dropzone-input" id="brand-logo" name="brand_logo" type="file"
+                   accept="image/svg+xml,image/png,image/jpeg,image/webp" />
+            <div class="bf-dropzone-body">
+              <svg class="bf-dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 16V4M6 10l6-6 6 6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="bf-dropzone-text">
+                <strong id="bf-dropzone-title">Drop a logo here or click to browse</strong>
+                <span id="bf-dropzone-sub" class="bf-help">SVG, PNG, JPG or WebP &middot; up to 6 MB</span>
+              </div>
+            </div>
+            <div class="bf-dropzone-progress" id="bf-dropzone-progress" hidden>
+              <div class="bf-dropzone-bar"></div>
+            </div>
+          </label>
+          <p class="bf-help" id="bf-dropzone-status" style="min-height: 16px; margin-top: 6px;"></p>
+        </div>
+
         <div class="bf-grid-2">
           <div class="bf-field">
             <label class="bf-label" for="brand-color">Primary brand color</label>
