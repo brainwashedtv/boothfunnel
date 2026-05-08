@@ -48,12 +48,47 @@ The current copy on boothfunnel.com is heavily print-centric. **Many references 
 
 The deck has print-explicit language in: the manifesto, photography direction, application slides. Needs revision before final hand-off. The visual identity is sound; the copy framing isn't.
 
-## Pricing reality (from operator David Brain, May 5, 2026)
+## Positioning — corrected May 5, 2026 (evening)
 
-- Single tier: **Growth at $499/mo**.
-- "Add-ons available for additional features" — pricing varies above $499 based on configuration (multiple booths, sponsor activations, custom branding, etc.).
-- Multi-location → "Talk to us" custom pricing.
-- Stripe price ID for Growth (test mode): `price_1TToSS9iEnWtwtlXHgi2GPo9`.
+**Old framing:** "A guest list, disguised as a photobooth." (lead-capture-first)
+**New framing:** "A marketing agency, hidden in a photobooth." (full-stack marketing service)
+
+The product is positioned as a marketing agency, not a lead-gen tool. The pitch:
+
+**One photo. Three marketing channels. Zero user input.**
+
+When a guest takes a photo, the booth automatically generates three parallel marketing outputs:
+
+1. **Customer's socials** — the guest posts the branded photo to their feed, reaching their audience for the venue. Organic UGC at scale.
+2. **Venue's owned media** — the photo enters the operator's content library, ready to be reposted on the venue's social accounts and used in paid ads. Evergreen content production.
+3. **Customer database** — the email/phone captured at the booth lands in the operator's CRM, ready for direct email/SMS marketing.
+
+This is the new focal point of the website's home page and brand deck.
+
+## Pricing reality (revised May 5, 2026)
+
+**Base package — three commitment tiers:**
+- $495/mo · 3-month minimum
+- $365/mo · 12-month minimum
+- $285/mo · 12-month minimum, 50+ booths bulk order
+
+**Every base package includes:**
+- Monthly data delivery + analytics
+- 5 custom branded borders
+- 24/7 photo booth access
+- 11" iPad
+- Unlimited contacts & media
+
+**Upgrades (add to base):**
+- 5G cellular for portable booth (no Wi-Fi needed): $100/mo
+- 13" iPad upgrade: $150/mo
+- Step & Repeat Backdrop, 10x8: $1,000 (one-time)
+- Step & Repeat Backdrop, 5x8: $700 (one-time)
+- Custom holiday borders: $25/mo
+- Email Marketing Campaigns: setup consultation
+- Text Marketing Campaigns: setup consultation
+
+Stripe products will need to be reconfigured for the new tier structure — the old `price_1TToSS9iEnWtwtlXHgi2GPo9` ($499/mo Growth) is now stale. Three new Stripe prices needed (or a single base + a commitment-length toggle in checkout).
 
 ## Other operational facts
 
