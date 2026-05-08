@@ -4,14 +4,15 @@
 :root {
   /* Brand palette */
   --bf-cream: #F2EAD8;       /* canvas — page background */
-  --bf-cream-2: #EFE8DC;     /* slightly darker cream for section breaks */
+  --bf-cream-2: #E7DCC2;     /* darker cream for alternating sections — visible contrast */
+  --bf-cream-3: #DACCAE;     /* deepest cream for accent bands */
   --bf-white: #FFFFFF;       /* "print white" — cards, photos */
   --bf-ink: #1A1612;         /* voice — primary text */
   --bf-ink-2: #2A241D;       /* slightly softer ink */
   --bf-mud: #5A4A38;         /* body subdued */
   --bf-rust: #8C5142;        /* eyebrows, metadata */
-  --bf-line: #E5DCC8;        /* hairlines on cream */
-  --bf-line-2: #C9BFA7;      /* stronger hairline */
+  --bf-line: #D9CFB6;        /* hairlines on cream — slightly stronger */
+  --bf-line-2: #B8A98A;      /* stronger hairline */
 
   --bf-brand: #B33A2A;       /* Kodak red — the moment */
   --bf-brand-dark: #8C2D20;
@@ -171,6 +172,7 @@ em.bf-mark {
   background: var(--bf-white); border: 0.5px solid var(--bf-line);
   border-radius: var(--bf-radius); padding: 24px 22px 20px;
   position: relative;
+  box-shadow: 0 4px 14px rgba(26,22,18,0.06);
 }
 .bf-funnel-num {
   font-family: var(--bf-font-serif); font-style: italic;
@@ -261,7 +263,7 @@ em.bf-mark {
 
 /* Trust strip */
 .bf-trust {
-  background: var(--bf-bg-warm); border-top: 0.5px solid var(--bf-line);
+  background: var(--bf-cream-2); border-top: 0.5px solid var(--bf-line);
   border-bottom: 0.5px solid var(--bf-line); padding: 24px 0;
 }
 .bf-trust-row { display: flex; align-items: center; gap: 28px; }
@@ -275,8 +277,9 @@ em.bf-mark {
 /* Steps */
 .bf-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 36px; }
 .bf-step {
-  padding: 28px; background: var(--bf-bg-warm);
+  padding: 28px; background: var(--bf-white);
   border-radius: var(--bf-radius); border: 0.5px solid var(--bf-line);
+  box-shadow: 0 1px 2px rgba(26,22,18,0.03);
 }
 .bf-step-num {
   width: 32px; height: 32px; border-radius: 50%; background: var(--bf-ink);
@@ -289,6 +292,7 @@ em.bf-mark {
 .bf-benefit {
   padding: 24px; background: var(--bf-white);
   border-radius: var(--bf-radius); border: 0.5px solid var(--bf-line);
+  box-shadow: 0 1px 2px rgba(26,22,18,0.03);
 }
 .bf-benefit-icon {
   width: 40px; height: 40px; border-radius: 8px; background: var(--bf-cream-2);
@@ -359,7 +363,7 @@ em.bf-mark {
 .bf-cta-banner p { color: rgba(255,255,255,0.7); font-size: 17px; margin: 0 0 28px; }
 
 /* Footer */
-.bf-footer { background: var(--bf-bg-warm); border-top: 0.5px solid var(--bf-line); padding: 48px 0 24px; font-size: 14px; color: var(--bf-muted); }
+.bf-footer { background: var(--bf-cream-3); border-top: 0.5px solid var(--bf-line-2); padding: 48px 0 24px; font-size: 14px; color: var(--bf-mud); }
 .bf-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
 .bf-footer h4 { font-size: 13px; font-weight: 600; color: var(--bf-ink); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 14px; }
 .bf-footer ul { list-style: none; padding: 0; margin: 0; }
