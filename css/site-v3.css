@@ -156,16 +156,24 @@ em.bf-mark {
 }
 
 /* The funnel diagram — one photo, three channels */
-.bf-funnel-source { display: flex; justify-content: center; margin-bottom: 8px; }
+.bf-funnel-source {
+  /* Block + text-align centering is more predictable than flex when the child has a transform applied */
+  display: block;
+  text-align: center;
+  margin-bottom: 8px;
+}
 
 /* The actual strip image — real client output as the funnel input */
 .bf-funnel-strip {
   display: block;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 185px;
   width: 100%;
   height: auto;
   box-shadow: 0 10px 28px rgba(26,22,18,0.22);
   transform: rotate(-1.5deg);
+  transform-origin: center center;
   transition: transform 0.4s ease;
 }
 .bf-funnel-strip:hover { transform: rotate(0deg) scale(1.03); }
@@ -427,7 +435,7 @@ em.bf-mark {
     height: 28px;
   }
   /* Down arrow from the strip to the first card */
-  .bf-funnel-source { margin-bottom: 20px; }
+  .bf-funnel-source { margin-bottom: 20px; padding: 0; }
   .bf-funnel-source::after {
     content: '';
     display: block;
@@ -436,6 +444,13 @@ em.bf-mark {
     margin: 12px auto -8px;
     background: repeating-linear-gradient(180deg, var(--bf-brass) 0 4px, transparent 4px 8px);
     opacity: 0.8;
+  }
+  /* Reduce tilt on mobile — at narrow widths the rotated bounding box pulls the
+     image visually off-center even when the parent is centering correctly. */
+  .bf-funnel-strip {
+    transform: rotate(-0.5deg);
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
 
@@ -489,6 +504,10 @@ em.bf-mark {
   font-size: 10px;
   color: var(--bf-ink);
   letter-spacing: 0.02em;
+  /* Force single line — captions wrapped onto two lines on mobile and overlapped the photo */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .bf-polaroid-stamp {
   position: absolute;
@@ -511,6 +530,15 @@ em.bf-mark {
   .bf-polaroid:nth-child(1) { transform: rotate(-5deg); }
   .bf-polaroid:nth-child(2) { transform: rotate(2deg) translateY(-12px); }
   .bf-polaroid:nth-child(3) { transform: rotate(-1deg) translateY(8px); }
+}
+@media (max-width: 600px) {
+  /* Phones: tighter polaroid card padding + smaller caption so it doesn't bleed onto the photo */
+  .bf-polaroid { padding: 8px 8px 26px; }
+  .bf-polaroid-cap {
+    bottom: 7px; left: 10px; right: 10px;
+    font-size: 9px;
+  }
+  .bf-polaroid-stamp { bottom: 30px; right: 10px; width: 22px; height: 22px; font-size: 11px; }
 }
 
 /* Trust strip — matches the activated section palette */
