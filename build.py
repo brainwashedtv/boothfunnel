@@ -98,13 +98,13 @@ PAGE_TEMPLATE = """<!doctype html>
   <link rel="icon" href="/brand/logos/seal-favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/site-v2.css" />
   <style>
-    #bf-intro{{position:fixed;inset:0;background:#1A1612;z-index:9999;display:flex;align-items:center;justify-content:center;animation:bf-out 1.7s .3s cubic-bezier(.65,0,.35,1) forwards}}
-    #bf-intro .m{{display:flex;align-items:center;gap:20px;opacity:0;animation:bf-in .85s .25s ease-out forwards}}
+    #bf-intro{{position:fixed;inset:0;background:#1A1612;z-index:9999;display:flex;align-items:center;justify-content:center;animation:bf-flash 1400ms cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}}
+    #bf-intro .m{{display:flex;align-items:center;gap:20px;opacity:0;animation:bf-mark 1400ms cubic-bezier(.4,0,.2,1) forwards}}
     #bf-intro .s{{width:52px;height:52px;border:1.5px solid #F2EAD8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-style:italic;font-size:24px;color:#F2EAD8;line-height:1}}
     #bf-intro .w{{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:42px;font-weight:500;color:#F2EAD8;letter-spacing:-.025em;line-height:1}}
     #bf-intro .w em{{font-family:Georgia,serif;font-style:italic;color:#B33A2A;font-weight:400}}
-    @keyframes bf-in{{from{{opacity:0;transform:translateY(10px)}}to{{opacity:1;transform:none}}}}
-    @keyframes bf-out{{0%,55%{{opacity:1;transform:translateY(0)}}100%{{opacity:0;transform:translateY(-100%)}}}}
+    @keyframes bf-flash{{0%,55%{{background:#1A1612;opacity:1}}60%{{background:#FFFFFF;opacity:1}}100%{{background:#FFFFFF;opacity:0}}}}
+    @keyframes bf-mark{{0%{{opacity:0;transform:translateY(8px) scale(1)}}22%{{opacity:1;transform:translateY(0) scale(1)}}55%{{opacity:1;transform:scale(1)}}60%{{opacity:0;transform:scale(1.08)}}100%{{opacity:0;transform:scale(1.08)}}}}
     @media(prefers-reduced-motion:reduce){{#bf-intro{{display:none}}}}
     #bf-intro.is-done{{display:none}}
   </style>

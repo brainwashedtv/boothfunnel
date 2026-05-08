@@ -21,11 +21,11 @@
     }
     sessionStorage.setItem('bf-intro-seen', '1');
   } catch (_) { /* private mode etc — just play it */ }
-  // Remove from DOM after the animation finishes so it doesn't capture pointer/scroll
+  // Remove from DOM after the flash animation finishes so it doesn't capture pointer/scroll
   setTimeout(function () {
     intro.classList.add('is-done');
     setTimeout(function () {
       intro.parentNode && intro.parentNode.removeChild(intro);
     }, 100);
-  }, 2100);
+  }, 1500);
 })();
