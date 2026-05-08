@@ -1,16 +1,25 @@
 // POST /api/create-checkout-session
-// Body: { plan: 'growth', venue_name, contact_email, ...all the form fields }
+// Body: { plan: 'flexible'|'annual', venue_name, contact_email, ...all the form fields }
 // Returns: { url: <Stripe Checkout redirect URL> }
 //
 // Required env vars:
 //   STRIPE_SECRET_KEY            sk_live_... or sk_test_...
-//   STRIPE_PRICE_GROWTH          price_...   (Stripe recurring price for the $499/mo plan)
+//   STRIPE_PRICE_FLEXIBLE        price_...   ($1,485 recurring every 3 months — "$495/mo, billed quarterly")
+//   STRIPE_PRICE_ANNUAL          price_...   ($2,190 recurring every 6 months — "$365/mo, 12-mo commitment, billed semi-annually")
 //   PUBLIC_BASE_URL              https://boothfunnel.com  (no trailing slash)
+//
+// "bulk" (50+ booths) is handled on the client — it short-circuits to /contact?topic=bulk
+// rather than going through self-serve checkout.
+//
+// Backward compat: STRIPE_PRICE_GROWTH still works if set, mapped to plan='growth'.
 
 const Stripe = require('stripe');
 
 const PRICE_BY_PLAN = {
-  growth: process.env.STRIPE_PRICE_GROWTH,
+  flexible: process.env.STRIPE_PRICE_FLEXIBLE,
+  annual:   process.env.STRIPE_PRICE_ANNUAL,
+  // Legacy mapping — keep so old links/tests keep working until env is migrated.
+  growth:   process.env.STRIPE_PRICE_GROWTH,
 };
 
 module.exports = async function handler(req, res) {

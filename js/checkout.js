@@ -105,13 +105,14 @@
     });
   }
 
-  // ---- Multi-location short-circuit ----
+  // ---- Bulk / multi-location short-circuit ----
+  // "bulk" (50+) and the legacy "multi" both bypass self-serve checkout
+  // and land on /contact so we can scope the rollout manually.
   function maybeRedirectMulti() {
     var plan = (collect().plan || '').toLowerCase();
-    if (plan === 'multi') {
-      // Save what they've entered so the contact form can pre-fill if we ever want to.
+    if (plan === 'bulk' || plan === 'multi') {
       persist();
-      window.location.href = '/contact?topic=multi';
+      window.location.href = '/contact?topic=' + encodeURIComponent(plan);
       return true;
     }
     return false;
@@ -120,7 +121,14 @@
   // ---- Review pane render ----
   function renderReview() {
     var d = collect();
-    var planLabels = { starter: 'Starter — $299/mo', growth: 'Growth — $499/mo', multi: 'Multi-location — custom' };
+    var planLabels = {
+      flexible: 'Flexible · 3-month — $495/mo, billed quarterly ($1,485 every 3 mo)',
+      annual:   'Annual · 12-month — $365/mo, billed every 6 months ($2,190 every 6 mo)',
+      bulk:     'Bulk · 50+ booths — $285/mo per booth (sales-led)',
+      // Legacy:
+      growth:   'Growth — $499/mo',
+      multi:    'Multi-location — custom',
+    };
     review.innerHTML =
       '<strong>Venue</strong><br>' + esc(d.venue_name || '—') + ' · ' + esc(d.venue_type || '') + '<br>' +
       esc(d.contact_name || '') + ' · ' + esc(d.contact_email || '') +
@@ -153,7 +161,7 @@
     }
     var data = collect();
     if (!data.plan) { status.textContent = 'Pick a plan first.'; return; }
-    if (data.plan === 'multi') return maybeRedirectMulti();
+    if (data.plan === 'bulk' || data.plan === 'multi') return maybeRedirectMulti();
 
     status.style.color = 'var(--bf-muted)';
     status.textContent = 'Connecting to Stripe...';

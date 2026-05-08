@@ -26,6 +26,19 @@
   targets.forEach(function (el) { io.observe(el); });
 })();
 
+// Contact page: pre-select the topic dropdown from ?topic=... query string.
+// Bulk-from-checkout and other deep-links land with the right topic chosen.
+(function () {
+  var topicSelect = document.getElementById('contact-topic');
+  if (!topicSelect) return;
+  try {
+    var t = new URLSearchParams(window.location.search).get('topic');
+    if (!t) return;
+    var opt = topicSelect.querySelector('option[value="' + t.replace(/"/g, '') + '"]');
+    if (opt) topicSelect.value = t;
+  } catch (_) { /* old browser, no-op */ }
+})();
+
 // Intro overlay — show on first page of a session, skip thereafter.
 // Bulletproof: multiple removal triggers so the overlay can never get stuck.
 (function () {

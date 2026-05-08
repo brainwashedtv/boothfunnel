@@ -65,12 +65,22 @@ When a guest takes a photo, the booth automatically generates three parallel mar
 
 This is the new focal point of the website's home page and brand deck.
 
-## Pricing reality (revised May 5, 2026)
+## Pricing reality (revised May 7, 2026)
 
-**Base package — three commitment tiers:**
-- $495/mo · 3-month minimum
-- $365/mo · 12-month minimum
-- $285/mo · 12-month minimum, 50+ booths bulk order
+**Three commitment tiers, all same fully-featured package:**
+
+| Plan | Monthly rate | Commitment | Billing cadence | Charge per cycle |
+|---|---|---|---|---|
+| Flexible | $495/mo | 3-month minimum | Every 3 months | $1,485 |
+| Annual (most popular) | $365/mo | 12-month | Every 6 months | $2,190 |
+| Bulk (50+) | $285/mo per booth | 12-month, 50+ units | Every 6 months | $1,710 × N booths |
+
+Internal plan keys used by the code (`plan` field in checkout payload):
+- `flexible` → Stripe price env: `STRIPE_PRICE_FLEXIBLE` (recurring every 3 months at $1,485)
+- `annual`   → Stripe price env: `STRIPE_PRICE_ANNUAL` (recurring every 6 months at $2,190)
+- `bulk`     → no Stripe price; client redirects to `/contact?topic=bulk` for sales-led rollout
+
+Legacy: `STRIPE_PRICE_GROWTH` (= old single $499/mo plan) still wired as fallback `growth` plan key. Remove once Vercel env is migrated to the two new IDs.
 
 **Every base package includes:**
 - Monthly data delivery + analytics
@@ -88,7 +98,11 @@ This is the new focal point of the website's home page and brand deck.
 - Email Marketing Campaigns: setup consultation
 - Text Marketing Campaigns: setup consultation
 
-Stripe products will need to be reconfigured for the new tier structure — the old `price_1TToSS9iEnWtwtlXHgi2GPo9` ($499/mo Growth) is now stale. Three new Stripe prices needed (or a single base + a commitment-length toggle in checkout).
+**To migrate Stripe prices:**
+1. Stripe dashboard → Products → "Flexible 3-month" → add price: $1,485 USD recurring every 3 months. Copy ID into Vercel env `STRIPE_PRICE_FLEXIBLE`.
+2. Add product "Annual 12-month" → price $2,190 USD recurring every 6 months. Copy ID into `STRIPE_PRICE_ANNUAL`.
+3. Bulk does not need a Stripe price (sales-led).
+4. Once both new IDs are set in Vercel, the old `STRIPE_PRICE_GROWTH` env var can be deleted.
 
 ## Other operational facts
 
