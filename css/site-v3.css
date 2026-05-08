@@ -125,8 +125,17 @@ em.bf-mark {
 .bf-nav a.bf-current { color: var(--bf-ink); }
 .bf-header-cta { display: flex; gap: 10px; align-items: center; }
 
-/* Hero */
-.bf-hero { padding: 72px 0 56px; }
+/* Hero — ink palette to match trust strip / activated section */
+.bf-hero {
+  padding: 72px 0 56px;
+  background: var(--bf-ink);
+  color: var(--bf-cream);
+}
+.bf-hero h1.bf-h1 { color: var(--bf-cream); }
+.bf-hero .bf-lead { color: rgba(242, 234, 216, 0.78); }
+.bf-hero .bf-eyebrow { color: var(--bf-brass); }
+.bf-hero .bf-btn-outline { color: var(--bf-cream); border-color: var(--bf-cream); }
+.bf-hero .bf-btn-outline:hover { background: var(--bf-cream); color: var(--bf-ink); }
 .bf-hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: center; }
 .bf-hero-ctas { display: flex; gap: 12px; }
 .bf-hero-art {
