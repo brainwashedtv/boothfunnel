@@ -96,7 +96,7 @@ PAGE_TEMPLATE = """<!doctype html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
   <link rel="icon" href="/brand/logos/seal-favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/css/site-v2.css" />
+  <link rel="stylesheet" href="/css/site-v3.css" />
   <style>
     #bf-intro{{position:fixed;inset:0;background:#1A1612;z-index:9999;display:flex;align-items:center;justify-content:center;animation:bf-flash 2100ms cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}}
     #bf-intro .m{{position:relative;display:flex;align-items:center;gap:20px;opacity:0;animation:bf-mark 2100ms cubic-bezier(.4,0,.2,1) forwards}}
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     ]
 
     extra_head_for = {
-        "get-started": '<link rel="stylesheet" href="/css/site-v2.css" />',
+        "get-started": '<link rel="stylesheet" href="/css/site-v3.css" />',
     }
     extra_scripts_for = {
         "get-started": '<script src="/js/checkout.js"></script>',
