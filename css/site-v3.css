@@ -407,8 +407,36 @@ em.bf-mark {
 }
 .bf-funnel-foot strong { color: var(--bf-ink); font-style: normal; font-weight: 500; }
 @media (max-width: 800px) {
-  .bf-funnel-channels { grid-template-columns: 1fr; gap: 10px; }
+  .bf-funnel-channels { grid-template-columns: 1fr; gap: 28px; }
   .bf-funnel-branches { display: none; }
+  /* Vertical dashed connector between stacked cards on mobile */
+  .bf-funnel-channel { position: relative; }
+  .bf-funnel-channel::before {
+    content: '';
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.5px;
+    height: 18px;
+    background: repeating-linear-gradient(180deg, var(--bf-brass) 0 4px, transparent 4px 8px);
+    opacity: 0.8;
+  }
+  .bf-funnel-channel:first-child::before {
+    top: -32px;
+    height: 28px;
+  }
+  /* Down arrow from the strip to the first card */
+  .bf-funnel-source { margin-bottom: 20px; }
+  .bf-funnel-source::after {
+    content: '';
+    display: block;
+    width: 1.5px;
+    height: 18px;
+    margin: 12px auto -8px;
+    background: repeating-linear-gradient(180deg, var(--bf-brass) 0 4px, transparent 4px 8px);
+    opacity: 0.8;
+  }
 }
 
 /* Polaroid stack — Heritage Frame hero treatment */
