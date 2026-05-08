@@ -11,20 +11,22 @@
   <link rel="icon" href="/brand/logos/seal-favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/css/site-v2.css" />
   <style>
-    #bf-intro{position:fixed;inset:0;background:#1A1612;z-index:9999;display:flex;align-items:center;justify-content:center;animation:bf-flash 1400ms cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
-    #bf-intro .m{display:flex;align-items:center;gap:20px;opacity:0;animation:bf-mark 1400ms cubic-bezier(.4,0,.2,1) forwards}
+    #bf-intro{position:fixed;inset:0;background:#1A1612;z-index:9999;display:flex;align-items:center;justify-content:center;animation:bf-flash 2100ms cubic-bezier(.4,0,.2,1) forwards;pointer-events:none}
+    #bf-intro .m{position:relative;display:flex;align-items:center;gap:20px;opacity:0;animation:bf-mark 2100ms cubic-bezier(.4,0,.2,1) forwards}
     #bf-intro .s{width:52px;height:52px;border:1.5px solid #F2EAD8;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-style:italic;font-size:24px;color:#F2EAD8;line-height:1}
     #bf-intro .w{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:42px;font-weight:500;color:#F2EAD8;letter-spacing:-.025em;line-height:1}
     #bf-intro .w em{font-family:Georgia,serif;font-style:italic;color:#B33A2A;font-weight:400}
+    #bf-intro .led{position:absolute;top:-12px;right:-18px;width:10px;height:10px;border-radius:50%;background:#FF3A2A;box-shadow:0 0 8px #FF3A2A,0 0 18px rgba(255,58,42,.55);opacity:0;animation:bf-led 2100ms steps(1,end) forwards}
     @keyframes bf-flash{0%,55%{background:#1A1612;opacity:1}60%{background:#FFFFFF;opacity:1}100%{background:#FFFFFF;opacity:0}}
-    @keyframes bf-mark{0%{opacity:0;transform:translateY(8px) scale(1)}22%{opacity:1;transform:translateY(0) scale(1)}55%{opacity:1;transform:scale(1)}60%{opacity:0;transform:scale(1.08)}100%{opacity:0;transform:scale(1.08)}}
+    @keyframes bf-mark{0%{opacity:0;transform:translateY(8px) scale(1)}18%{opacity:1;transform:translateY(0) scale(1)}55%{opacity:1;transform:scale(1)}60%{opacity:0;transform:scale(1.08)}100%{opacity:0;transform:scale(1.08)}}
+    @keyframes bf-led{0%,29%{opacity:0}30%,36%{opacity:1}37%,43%{opacity:0}44%,50%{opacity:1}51%,100%{opacity:0}}
     @media(prefers-reduced-motion:reduce){#bf-intro{display:none}}
     #bf-intro.is-done{display:none}
   </style>
   <link rel="stylesheet" href="/css/site-v2.css" />
 </head>
 <body>
-<div id="bf-intro" aria-hidden="true"><div class="m"><div class="s">bf</div><div class="w">Booth<em>funnel</em></div></div></div>
+<div id="bf-intro" aria-hidden="true"><div class="m"><div class="s">bf</div><div class="w">Booth<em>funnel</em></div><span class="led"></span></div></div>
 <header class="bf-header">
   <div class="bf-wrap bf-header-inner">
     <a href="/" class="bf-logo">Booth<span>funnel</span></a>

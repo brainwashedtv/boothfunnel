@@ -27,5 +27,5 @@
     setTimeout(function () {
       intro.parentNode && intro.parentNode.removeChild(intro);
     }, 100);
-  }, 1500);
+  }, 2200);
 })();
